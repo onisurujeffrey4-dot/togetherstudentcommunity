@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="only light">
+<meta name="supported-color-schemes" content="light">
+<title>Together</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:only light;--g:#102A43;--gd:#0c2035;--lime:#2F6F68;--y:#2F6F68;--c:#F2A36B;--cream:#F7F5EF;--ink:#102A43;--mut:#5b6b7a;--line:#e2dfd4;--err:#c2410c}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%}
+body{font:16px/1.5 Manrope,system-ui,sans-serif;background:var(--cream);color:var(--ink);-webkit-text-size-adjust:100%}
+h1,h2,h3,.hd{font-family:Manrope,system-ui,sans-serif;letter-spacing:-.02em;margin:0}
+button,input,select{font:inherit}
+.split{min-height:100dvh;display:grid;grid-template-columns:1fr}
+.brand{background:var(--g);color:#fff;padding:28px 24px 34px;position:relative;overflow:hidden}
+.brand:before{content:"";position:absolute;right:-90px;top:-90px;width:260px;height:260px;border-radius:50%;background:var(--lime);opacity:.3}
+.brand:after{content:none}
+.brand>*{position:relative;z-index:1}
+.logo{display:flex;align-items:center;gap:10px;font:800 26px Manrope;color:inherit}
+.brand h1{font-size:clamp(28px,6vw,44px);line-height:1.1;margin:22px 0 10px;font-weight:800}
+.brand h1 em{font-style:normal;color:var(--lime)}
+.brand .lead{display:none}
+.perks{list-style:none;padding:0;margin:20px 0 0;display:none;gap:10px}
+.perks li{display:flex;gap:12px;align-items:center;font-weight:500}
+.perks i{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:16px}
+.main{padding:22px 18px 40px;display:flex;justify-content:center;align-items:flex-start}
+.card{width:100%;max-width:440px;animation:in .35s ease both}
+@keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.card h2{font-size:26px;font-weight:800;margin-bottom:6px}
+.sub{color:var(--mut);margin:0 0 20px}
+.fld{margin-bottom:14px}
+.fld label{display:block;font-weight:600;font-size:14px;margin-bottom:6px}
+.inp{position:relative}
+input,select{width:100%;height:50px;padding:0 14px;border:2px solid var(--line);border-radius:14px;background:#fff;color:var(--ink);font-size:16px;transition:border-color .15s,box-shadow .15s}
+input:focus,select:focus{outline:none;border-color:var(--g);box-shadow:0 0 0 4px rgba(47,111,104,.28)}
+.bad input,.bad select{border-color:var(--err)}
+.msg{color:var(--err);font-size:13px;min-height:0;margin-top:4px;font-weight:500}
+.eye{position:absolute;right:6px;top:6px;height:38px;padding:0 10px;border:0;background:none;color:var(--g);font-weight:600;border-radius:10px;cursor:pointer}
+.row{display:grid;gap:0 12px}
+.btn{width:100%;height:52px;border:0;border-radius:16px;font-weight:700;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:transform .12s,box-shadow .12s,opacity .15s}
+.btn:active{transform:scale(.97)}
+.pri{background:var(--y);color:#fff;box-shadow:0 3px 0 #1f524c}
+.grn{background:var(--g);color:#fff}
+.ghost{background:transparent;color:var(--g);border:2px solid var(--line)}
+.btn[disabled]{opacity:.55;cursor:not-allowed;transform:none}
+.spin{width:18px;height:18px;border-radius:50%;border:3px solid currentColor;border-right-color:transparent;animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+a{color:var(--g);font-weight:600;cursor:pointer;text-decoration:none}a:hover{text-decoration:underline}
+.alert{border-radius:14px;padding:12px 14px;margin-bottom:16px;font-size:14px;font-weight:500}
+.alert.e{background:#fff1ea;color:var(--err);border:1px solid #ffd2bd}
+.alert.ok{background:#e4ede9;color:var(--gd);border:1px solid #c5d9d3}
+.foot{text-align:center;margin-top:18px;color:var(--mut);font-size:15px}
+.big{font-size:54px;text-align:center;margin-bottom:8px;animation:pop .5s cubic-bezier(.3,1.6,.5,1) both}
+@keyframes pop{from{transform:scale(.3);opacity:0}to{transform:none;opacity:1}}
+.sum{background:#fff;border:2px solid var(--line);border-radius:18px;padding:6px 16px;margin:16px 0 20px}
+.sum div{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.sum div:last-child{border:0}.sum span{color:var(--mut)}.sum b{text-align:right}
+.hint{font-size:12px;color:var(--mut);margin-top:4px}
+/* app shell */
+.top{position:sticky;top:0;z-index:5;background:var(--g);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:10px 16px;padding-top:calc(10px + env(safe-area-inset-top,0px))}
+.top button{background:rgba(255,255,255,.14);color:#fff;border:0;border-radius:12px;padding:8px 14px;font-weight:600;cursor:pointer}
+.page{max-width:900px;margin:0 auto;padding:22px 16px 110px}
+.chips{display:flex;gap:10px;margin:14px 0 22px;flex-wrap:wrap}
+.chip{border-radius:999px;padding:8px 16px;font-weight:700}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.tile{background:#fff;border:2px solid var(--line);border-radius:20px;padding:18px;color:var(--ink);font-weight:700;display:block;transition:transform .15s,border-color .15s}
+.tile:hover{transform:translateY(-3px);border-color:var(--lime);text-decoration:none}.tile span{display:block;font-size:26px}
+.nav{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));z-index:5}
+.nav a{display:flex;flex-direction:column;align-items:center;font-size:11px;padding:4px 10px;border-radius:12px;color:var(--mut)}
+.nav a.on{color:var(--g);background:#e4ede9}.nav a span{font-size:20px}
+.splash{min-height:100dvh;display:grid;place-items:center;background:var(--g);color:var(--lime)}
+@media(min-width:860px){
+.split{grid-template-columns:1.05fr 1fr}.brand{padding:56px;display:flex;flex-direction:column;justify-content:center}
+.brand .lead,.perks{display:grid}.brand .lead{display:block;font-size:18px;max-width:460px;opacity:.92}
+.main{align-items:center;padding:40px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ===== LANDING ===== */
+.L{background:var(--cream);color:var(--g);overflow-x:clip}.L h1,.L h2,.L h3,.L h4{font-weight:800;letter-spacing:-.03em;line-height:1.06;margin:0}
+.L a{font-weight:inherit}.L section{scroll-margin-top:70px}
+.Lnav{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;padding-top:calc(12px + env(safe-area-inset-top,0px));transition:background .5s,box-shadow .5s}
+.Lnav.sc{background:rgba(16,42,67,.94);backdrop-filter:blur(10px);box-shadow:0 10px 30px rgba(16,42,67,.28)}
+.Lnav .lg{display:flex;gap:10px;align-items:center;font-weight:800;font-size:21px;color:#fff;text-decoration:none}
+.Lnav nav,.Lnav .r{display:none;gap:30px;align-items:center}.Lnav nav a{color:#ffffffcc;font-weight:500;cursor:pointer}.Lnav nav a:hover{color:#fff;text-decoration:none}.Lnav .r{gap:10px}
+.lb{display:inline-flex;align-items:center;justify-content:center;height:50px;padding:0 26px;border-radius:999px;font-weight:600;transition:transform .35s cubic-bezier(.2,.8,.2,1),background .3s;text-decoration:none!important}
+.lb.t{background:var(--lime);color:#fff}.lb.gh{color:#fff}.lb.ol{border:1.5px solid #ffffff55;color:#fff}.lb.nv{background:var(--g);color:#fff}.lb.ob{border:1.5px solid rgba(16,42,67,.3);color:var(--g)}
+.bur{width:44px;height:44px;border:0;background:none;display:grid;place-content:center;gap:6px;cursor:pointer}.bur i{display:block;width:24px;height:2px;background:#fff;transition:transform .4s}
+.bur.o i:first-child{transform:translateY(4px) rotate(45deg)}.bur.o i:last-child{transform:translateY(-4px) rotate(-45deg)}
+.Lmenu{position:fixed;inset:0;z-index:15;background:var(--g);display:flex;flex-direction:column;justify-content:center;gap:22px;padding:24px 32px;clip-path:circle(0 at calc(100% - 40px) 36px);visibility:hidden;transition:clip-path .7s cubic-bezier(.7,0,.2,1),visibility 0s .7s}
+.Lmenu.o{clip-path:circle(150% at calc(100% - 40px) 36px);visibility:visible;transition:clip-path .7s cubic-bezier(.7,0,.2,1),visibility 0s}
+.Lmenu a{color:#fff;font-size:30px;font-weight:700;text-decoration:none}.Lmenu a.lb{font-size:17px;align-self:flex-start;margin-top:8px}
+.hero{height:280vh;background:var(--g);position:relative}.stage{position:sticky;top:0;height:100dvh;overflow:hidden}
+#cv{position:absolute;inset:0;width:100%;height:100%}
+.ht{position:relative;z-index:2;padding:96px 22px 0;max-width:680px}.ht h1{font-size:clamp(34px,9vw,74px);color:#fff}
+.ht p{color:#ffffffc9;font-size:clamp(16px,2vw,19px);max-width:520px;margin:20px 0 28px}
+.cta{display:flex;flex-wrap:wrap;gap:12px}.cta.c{justify-content:center}
+.hb{position:absolute;z-index:2;left:22px;right:22px;bottom:calc(26px + env(safe-area-inset-bottom,0px))}
+.cap{color:#fff;font-size:clamp(17px,2.4vw,24px);font-weight:600;max-width:520px;margin:0 0 16px;opacity:0;transform:translateY(14px);transition:opacity 1s,transform 1s cubic-bezier(.2,.8,.2,1)}.cap.in{opacity:1;transform:none}
+.pg{max-width:460px;margin-top:18px}.bars{display:flex;gap:6px}.bars i{flex:1;height:3px;border-radius:3px;background:rgba(255,255,255,.22);transition:background .8s}.bars i.on{background:#fff}
+#pl{display:block;margin-top:10px;font-size:13px;font-weight:600;color:#ffffffb3}
+.sec{max-width:1120px;margin:0 auto;padding:clamp(80px,13vw,150px) 22px}
+.rv{opacity:0;transform:translateY(30px);transition:opacity 1.1s cubic-bezier(.2,.8,.2,1) var(--d,0s),transform 1.1s cubic-bezier(.2,.8,.2,1) var(--d,0s)}.rv.in{opacity:1;transform:none}
+.big{font-size:clamp(38px,8.4vw,96px);font-weight:800;text-align:left}.sh{font-size:clamp(28px,4.6vw,48px);font-weight:600!important;max-width:760px}
+.two{display:grid;gap:36px;margin-top:44px;align-items:center}.two p{font-size:clamp(18px,2.2vw,24px);line-height:1.55;margin:0;max-width:520px}
+.net{width:100%;height:auto}.net path{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 2.2s .3s ease}.net.in path{stroke-dashoffset:0}
+.net circle{transform-box:fill-box;transform-origin:center;animation:pu 4s ease-in-out infinite alternate}@keyframes pu{to{transform:scale(1.18)}}
+.pg4{display:grid;gap:16px;margin-top:44px}
+.pc{background:var(--g) radial-gradient(120% 80% at 100% 0,rgba(47,111,104,.6),transparent 60%);color:#fff;border-radius:24px;padding:26px 22px 28px;min-height:230px;box-shadow:0 30px 40px -28px rgba(16,42,67,.65);transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.pc svg{opacity:.9}.pc h3{font-size:22px;margin:44px 0 8px;font-weight:700}.pc p{margin:0;color:#ffffffbd}
+.jr{list-style:none;margin:48px 0 0;padding:0}
+.stp{position:relative;padding:0 0 46px 62px;opacity:.3;transition:opacity 1s var(--d,0s)}.stp.in{opacity:1}
+.stp .d{position:absolute;left:0;top:0;width:38px;height:38px;border-radius:50%;border:2px solid var(--line);background:var(--cream);display:grid;place-items:center;font-weight:700;transition:background .8s var(--d,0s),color .8s var(--d,0s)}
+.stp.in .d{background:var(--lime);border-color:var(--lime);color:#fff}
+.stp:before,.stp:after{content:"";position:absolute;left:18px;top:44px;bottom:6px;width:2px;background:var(--line)}
+.stp:after{background:var(--lime);transform:scaleY(0);transform-origin:top;transition:transform 1.2s var(--d,0s)}.stp.in:after{transform:scaleY(1)}
+.stp:last-child:before,.stp:last-child:after{display:none}.stp h3{font-size:22px;margin-bottom:4px;font-weight:700}.stp p{margin:0;color:var(--mut)}
+.cg{display:grid;gap:16px;margin-top:44px}
+.cc{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:0 24px 40px -28px rgba(16,42,67,.45)}
+.av{width:46px;height:46px;border-radius:50%;background:var(--lime);color:#fff;display:grid;place-items:center;font-weight:800;flex:none}
+.cc small,.uc small{display:block;color:var(--mut)}.cc b{display:block}
+.ch{margin-left:auto;font-size:12px;font-weight:700;padding:6px 10px;border-radius:99px;background:var(--cream);white-space:nowrap}.ch:before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--c);margin-right:6px}
+.fl{}
+.prod{background:#EFECE2}.prod .sec p{color:var(--mut);margin:14px 0 0;font-size:18px}
+.pv{display:grid;gap:18px;perspective:1200px;margin-top:44px}
+.uc{height:100%;background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:0 28px 50px -26px rgba(16,42,67,.4);transform:rotateX(var(--rx,3deg)) rotateY(var(--ry,-4deg)) translateZ(var(--z,0px));transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.uc.dk{background:var(--g);color:#fff}.uc.dk small{color:#ffffffb3}.uc h4{font-size:16px;font-weight:700;margin-bottom:14px}.uc b{font-size:22px;font-weight:800;display:block}
+.uc ul{list-style:none;margin:0 0 16px;padding:0;display:grid;gap:9px}.uc li{display:flex;gap:10px;align-items:center}.uc li:before{content:"";width:18px;height:18px;border-radius:6px;border:2px solid var(--line);flex:none}.uc li.k:before{background:var(--lime);border-color:var(--lime)}
+.bar{height:6px;border-radius:6px;background:var(--line);margin-bottom:8px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:var(--lime);transition:width 1.8s .4s cubic-bezier(.2,.8,.2,1)}.pv.in .bar i{width:66%}
+.rgw{display:flex;align-items:center;gap:16px;margin-bottom:10px}.rgw svg{width:84px;flex:none}.rb,.rg{fill:none;stroke-width:7}.rb{stroke:var(--line)}.rg{stroke:var(--lime);stroke-linecap:round;stroke-dasharray:176;stroke-dashoffset:176;transition:stroke-dashoffset 2s .5s cubic-bezier(.2,.8,.2,1)}.pv.in .rg{stroke-dashoffset:44}
+.avs{display:flex;margin-bottom:12px}.avs span{width:38px;height:38px;border-radius:50%;background:var(--lime);color:#fff;display:grid;place-items:center;font-weight:700;border:3px solid #fff;margin-right:-8px}.avs span:nth-child(2){background:var(--g)}
+.emo{background:var(--g);color:#fff;min-height:82vh;display:grid;place-items:center;text-align:center;padding:120px 24px}.emo h2{font-size:clamp(34px,6.4vw,76px);max-width:960px;margin:0 auto}
+.emo p{font-size:clamp(17px,2.2vw,24px);color:#ffffffb3;margin:36px 0 0}.ul{display:block;width:72px;height:3px;background:var(--c);border-radius:3px;margin:36px auto 0;transform:scaleX(0);transition:transform 1.6s .5s cubic-bezier(.2,.8,.2,1)}.ul.in{transform:scaleX(1)}
+.fin{text-align:center;padding:clamp(90px,14vw,170px) 24px}.lock{display:inline-flex;align-items:center;gap:14px;font-size:34px;font-weight:800}.fin h2{font-size:clamp(34px,6vw,68px);margin:28px 0 34px}
+.lf{padding:26px 24px calc(26px + env(safe-area-inset-bottom,0px));display:flex;flex-wrap:wrap;gap:10px 28px;justify-content:center;color:var(--mut);font-size:14px;border-top:1px solid var(--line)}.lf a{color:var(--mut);cursor:pointer;font-weight:500}
+.hm{margin-top:4px;transition:opacity .8s}.cap:not(.in)~.hm{opacity:0;pointer-events:none}
+@media(max-width:859px){.stp,.stp .d,.stp:after{--d:0s!important}}
+@media(min-width:620px){.pg4{grid-template-columns:1fr 1fr}}
+@media(min-width:860px){.ht h1{font-size:clamp(44px,4.4vw,64px)}.Lnav{padding:16px 48px}.Lnav nav,.Lnav .r{display:flex}.bur,.Lmenu{display:none}
+.stage{display:grid;align-items:center}.ht{padding:0 48px 190px}.hb{left:48px;right:48px}.hm{display:none}
+.two{grid-template-columns:1fr 1fr;gap:64px}.cg{grid-template-columns:repeat(3,1fr);gap:24px}.cg>.rv:nth-child(2){margin-top:64px}
+.jr{display:grid;grid-template-columns:repeat(5,1fr)}.stp{padding:64px 22px 0 0}.stp:before,.stp:after{left:46px;right:6px;top:18px;bottom:auto;width:auto;height:2px}.stp:after{transform:scaleX(0);transform-origin:left}.stp.in:after{transform:scaleX(1)}
+.pv{grid-template-columns:repeat(6,1fr)}.pv>div{grid-column:span 3}.pv>div:nth-child(1){grid-row:span 2}}
+@media(min-width:1000px){.pg4{grid-template-columns:repeat(4,1fr)}}
+
+/* ===== v2: cinematic story ===== */
+.hw{display:inline-block;opacity:0;transform:translateY(22px);filter:blur(10px);transition:opacity 1.4s cubic-bezier(.2,.8,.2,1),transform 1.4s cubic-bezier(.2,.8,.2,1),filter 1.4s cubic-bezier(.2,.8,.2,1)}
+.hw:nth-child(1){transition-delay:.5s}.hw:nth-child(2){transition-delay:.95s}.hw:nth-child(3){transition-delay:1.4s}
+.ht p,.ht .cta{opacity:0;transform:translateY(14px);transition:opacity 1.3s cubic-bezier(.2,.8,.2,1),transform 1.3s cubic-bezier(.2,.8,.2,1)}.ht p{transition-delay:2s}.ht .cta{transition-delay:2.4s}
+.go .hw,.go p,.go .cta{opacity:1;transform:none;filter:none}
+.big .rv{filter:blur(8px);transition:opacity 1.2s cubic-bezier(.2,.8,.2,1) var(--d,0s),transform 1.2s cubic-bezier(.2,.8,.2,1) var(--d,0s),filter 1.2s cubic-bezier(.2,.8,.2,1) var(--d,0s)}.big .rv.in{filter:none}
+.sheet{position:relative;z-index:3;background:var(--cream);border-radius:34px 34px 0 0;margin-top:-50vh;box-shadow:0 -30px 60px rgba(16,42,67,.35)}
+.emo.sheet{background:var(--g);margin-top:-34px;box-shadow:0 -24px 50px rgba(16,42,67,.25)}
+.idea{position:relative;padding-top:clamp(130px,22vw,240px);padding-bottom:clamp(120px,18vw,200px)}
+.fd{position:absolute;width:10px;height:10px;border-radius:50%;background:var(--lime);opacity:.5}.fd.o{width:6px;height:6px;background:var(--c);opacity:.9}
+.idea .two{grid-template-columns:1fr!important;margin-top:56px}
+.prin{background:var(--g);color:#fff;position:relative;z-index:3}.prin .sh{color:#fff}
+.pr{list-style:none;margin:48px 0 0;padding:0}
+.pr li{position:relative;display:grid;grid-template-columns:52px 1fr;padding:36px 0}
+.pr .ln{position:absolute;left:0;right:0;top:0;height:1px;background:rgba(255,255,255,.28);transform:scaleX(0);transform-origin:left;transition:transform 1.5s cubic-bezier(.2,.8,.2,1)}
+.pr li:after{content:"";position:absolute;left:0;top:-3px;width:7px;height:7px;border-radius:50%;background:#fff;opacity:0;transition:opacity .6s}
+.pr .n{font-weight:600;font-size:14px;color:#ffffff99;padding-top:14px;opacity:0;transition:opacity .8s .2s}
+.pr h3{font-size:clamp(30px,6vw,56px);font-weight:700;opacity:0;transform:translateY(16px);transition:opacity 1s cubic-bezier(.2,.8,.2,1) .6s,transform 1s cubic-bezier(.2,.8,.2,1) .6s}
+.pr p{grid-column:2;margin:10px 0 0;color:#ffffffbd;font-size:clamp(16px,2vw,20px);opacity:0;transform:translateY(12px);transition:opacity 1s cubic-bezier(.2,.8,.2,1) 1s,transform 1s cubic-bezier(.2,.8,.2,1) 1s}
+.pr li.in .ln{transform:none}.pr li.in:after,.pr li.in .n,.pr li.in h3,.pr li.in p{opacity:1;transform:none}
+.pf{display:flex;gap:12px;align-items:center;margin-bottom:18px}.uc .pf b{font-size:16px}
+.uc li:before{transition:background .6s,border-color .6s}
+.bdw{display:flex;align-items:center;gap:10px;margin-top:16px;padding:10px 12px;border-radius:14px;background:var(--cream);font-weight:600;font-size:14px;opacity:0;transform:translateY(10px) scale(.96);transition:opacity .9s,transform .9s cubic-bezier(.2,.8,.2,1)}.bdw.in{opacity:1;transform:none}
+.bar i{transition:width 1.6s cubic-bezier(.2,.8,.2,1)}
+.fin{position:relative;overflow:hidden;background:var(--g);color:#fff}#cv2{position:absolute;inset:0;width:100%;height:100%}.fin>.rv{position:relative;z-index:2}
+.lock{color:#fff}.fin h2{color:#fff;margin:30px 0 14px}.fin p{color:#ffffffbd;font-size:clamp(17px,2.2vw,22px);margin:0 auto 34px;max-width:520px}
+.lf{background:var(--g);color:#ffffff99;border-top:1px solid #ffffff1f}.lf a{color:#ffffffb3}
+
+/* ===== v3: connected journey ===== */
+.tail{position:relative;z-index:3;background:var(--g);border-radius:34px 34px 0 0;margin-top:-34px;overflow:hidden;box-shadow:0 -24px 50px rgba(16,42,67,.25)}
+.emo.sheet{background:none;margin-top:0;box-shadow:none;border-radius:0;z-index:2}.fin{background:none;z-index:2}
+.prw{position:relative;padding-left:34px;margin-top:48px}.prw .pr{margin:0}
+.spine{position:absolute;left:5px;top:0;bottom:0;width:2px;background:rgba(255,255,255,.16)}
+.sp{position:absolute;inset:0;background:#4a9a91;transform:scaleY(0);transform-origin:top}
+.sph{position:absolute;left:-4px;top:0;width:10px;height:10px;border-radius:50%;background:#fff;box-shadow:0 0 14px 3px rgba(74,154,145,.8)}
+.pr .ln{display:none}.pr li{padding:34px 0}
+.pr li:after{left:-33px;top:46px;width:9px;height:9px;opacity:1;background:#102A43;border:2px solid rgba(255,255,255,.35);transition:background .6s,border-color .6s}
+.pr li.in:after{background:#fff;border-color:#fff}
+.uc{position:relative;overflow:hidden}.uc:after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at var(--lx,80%) var(--ly,0%),rgba(47,111,104,.11),transparent 55%)}.uc.dk:after{background:radial-gradient(circle at var(--lx,80%) var(--ly,0%),rgba(255,255,255,.09),transparent 55%)}
+.act{display:flex;gap:10px;align-items:center;font-size:13px;font-weight:600;margin-top:14px;padding:8px 10px;border-radius:12px;background:var(--cream);opacity:0;transform:translateY(8px);transition:opacity .9s,transform .9s cubic-bezier(.2,.8,.2,1)}.act.in{opacity:1;transform:none}.av.sm{width:26px;height:26px;font-size:12px}
+@media(min-width:860px){.pr li:after{top:58px}}
+
+/* ===== v4: pacing + hierarchy ===== */
+.eb{display:block;font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--lime);margin:0 0 18px}.prin .eb,.evid .eb{color:#ffffffb8}
+.idea{padding-top:clamp(130px,24vw,300px);padding-bottom:clamp(130px,22vw,280px)}
+.pr h3{font-size:clamp(34px,7vw,64px)}
+.prod{position:relative;overflow:hidden}#cv3{position:absolute;inset:0;width:100%;height:100%}.prod .sec{position:relative;z-index:1}
+.evid{position:relative;z-index:2;background:var(--lime);color:#fff}.evid .big{color:#fff}
+.wk{background:#fff;color:var(--g);border-radius:22px;padding:22px;margin-top:20px;box-shadow:0 24px 40px -28px rgba(16,42,67,.5)}.wk b{display:block;font-size:18px}.wk small{color:var(--mut)}
+.bars7{display:flex;gap:8px;align-items:flex-end;height:96px;margin-top:18px}.bars7 i{flex:1;height:var(--h);background:var(--lime);border-radius:6px 6px 3px 3px;transform:scaleY(0);transform-origin:bottom;transition:transform 1.2s cubic-bezier(.2,.8,.2,1)}
+.wk.in .bars7 i{transform:none}.bars7 i:nth-child(2){transition-delay:.1s}.bars7 i:nth-child(3){transition-delay:.2s}.bars7 i:nth-child(4){transition-delay:.3s}.bars7 i:nth-child(5){transition-delay:.4s}.bars7 i:nth-child(6){transition-delay:.5s}.bars7 i:nth-child(7){transition-delay:.6s}
+#sk{display:inline-block}.tick{animation:tk .8s cubic-bezier(.2,.8,.2,1)}@keyframes tk{from{transform:translateY(12px);opacity:0}}
+.dots7{display:flex;gap:6px;margin-top:16px}.dots7 i{flex:1;height:6px;border-radius:6px;background:var(--line);transition:background .9s}.dots7 i.k{background:var(--lime)}
+.avs .n4{width:0;font-size:0;opacity:0;border-width:0;margin-right:0;transition:width .9s,opacity .9s,font-size .9s,margin .9s,border-width .9s}.avs .n4.in{width:38px;font-size:16px;opacity:1;border-width:3px;margin-right:-8px}
+.pv{position:relative}.toast{position:absolute;z-index:5;right:3%;top:-30px;display:flex;gap:10px;align-items:center;background:var(--g);color:#fff;padding:12px 16px;border-radius:16px;box-shadow:0 20px 40px -14px rgba(16,42,67,.6);opacity:0;transform:translateY(-14px);transition:opacity .9s,transform .9s cubic-bezier(.2,.8,.2,1)}.toast.in{opacity:1;transform:none}.toast b{display:block;font-size:14px}.toast small{color:#ffffffb3;font-size:12px}
+.evid .cc,.evid .wk{color:var(--g)}.pv{margin-top:70px}.toast{top:-62px}
+textarea{width:100%;min-height:96px;padding:12px 14px;border:2px solid var(--line);border-radius:14px;background:#fff;color:var(--ink);font:inherit;resize:vertical}textarea:focus{outline:none;border-color:var(--g);box-shadow:0 0 0 4px rgba(47,111,104,.28)}.bad textarea{border-color:var(--err)}
+
+/* ===== community foundation ===== */
+[hidden]{display:none!important}
+.comp{margin:14px 0}.comp textarea{min-height:84px}
+.post{background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px;margin:14px 0;animation:in .35s ease both}.ph{display:flex;gap:10px;align-items:center}.ph small,.cm small{display:block;color:var(--mut)}
+.pt{margin:12px 0;white-space:pre-wrap;word-break:break-word}.post a{color:var(--lime)}
+.pa{display:flex;gap:6px}.pa button{white-space:nowrap;background:none;border:0;color:var(--mut);font-weight:600;padding:8px 10px;border-radius:10px;cursor:pointer}.pa button.on{color:var(--lime);background:#e4ede9}.pa i{font-style:normal}
+.cms{margin-top:8px;border-top:1px solid var(--line);padding-top:10px}.cm p{margin:2px 0 6px}.rp{margin-left:22px}.cm>a{font-size:13px}
+.verse{border-left:3px solid var(--lime);padding:4px 12px;margin:0 0 16px}.verse small{color:var(--mut);text-transform:uppercase;letter-spacing:.1em;font-size:11px}
+</style>
+</head>
+<body>
+<div id="app"><div class="splash"><div style="text-align:center"><div class="spin" style="width:34px;height:34px;margin:0 auto"></div><p style="margin:14px 0 0;font-size:14px;color:#ffffffb3">Checking your session…</p></div></div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+/* ===== 1. CONFIG — publishable/anon key ONLY. Never put a service-role/secret key here. ===== */
+const CFG={url:'https://nkvayvvdgpesneidtwdd.supabase.co',key:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5rdmF5dnZkZ3Blc25laWR0d2RkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA2NjczNjcsImV4cCI6MjEwNjI0MzM2N30.Z8z248fvNZsec5IQt8hFaGBfnBii5BqT8HFlDYJR5d8',table:'profiles'}; // public anon key (safe for browsers)
+const PROD_URL='https://togetherstudentapp.netlify.app';
+/* Where Supabase sends people after confirm/reset: always the origin the user is on (production on Netlify, localhost in dev),
+   because the PKCE sign-in code can only be exchanged in the same browser origin that started signup. Never hardcoded to localhost. */
+const REDIRECT=(location.protocol==='http:'||location.protocol==='https:'?location.origin:PROD_URL)+'/';
+const ok=!CFG.url.startsWith('YOUR_');
+const sb=ok?supabase.createClient(CFG.url,CFG.key,{auth:{flowType:'pkce',persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}}):null;
+
+/* ===== 2. VALIDATION ===== */
+const EMAIL=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+const LEVELS=['100','200','300','400','500','600'];
+function vAccount(v,confirm=true){const e={};
+ if(!EMAIL.test(v.email||''))e.email='Enter a valid email, like ada@school.edu.';
+ if(!v.password||v.password.length<8||!/[A-Za-z]/.test(v.password)||!/\d/.test(v.password))e.password='Use at least 8 characters with a letter and a number.';
+ if(confirm&&v.confirm!==v.password)e.confirm="Passwords don't match.";return e}
+function vProfile(v){const e={};
+ const ln=k=>(v[k]||'').trim().length;
+ if(ln('full_name')<2)e.full_name='Tell us your full name (at least 2 characters).';
+ if(ln('school')<2)e.school='Enter your school (at least 2 characters).';
+ if(ln('department')<2)e.department='Enter your department (at least 2 characters).';
+ if(!LEVELS.includes(v.level))e.level='Pick your level.';return e}
+const complete=p=>!!p&&['full_name','school','department','level'].every(k=>String(p[k]??'').trim());
+
+/* ===== 3. FRIENDLY ERRORS ===== */
+function friendly(x){const m=(x&&x.message||'').toLowerCase();
+ if(m.includes('invalid login'))return "Your email or password doesn't look right. Please check and try again.";
+ if(m.includes('not confirmed'))return 'Please verify your email first. Open the link we sent you, then log in.';
+ if(m.includes('already registered')||m.includes('already been registered'))return 'An account with this email already exists. Try logging in instead.';
+ if(m.includes('database error saving new user'))return "We couldn't create your account. Please check your name, school, department and level, then try again.";
+ if(m.includes('invalid')&&m.includes('email'))return "That email address doesn't look valid.";
+ if(m.includes('signups not allowed')||(m.includes('signup')&&m.includes('disabled')))return 'Sign-ups are paused right now. Please try again later.';
+ if(m.includes('content_not_allowed'))return 'That text breaks our Community Guidelines. Please rewrite it.';
+ if(m.includes('rate limit')||m.includes('too many')||x?.status===429)return 'Too many attempts. Please wait a minute and try again.';
+ if(m.includes('password')&&(m.includes('weak')||m.includes('least')||m.includes('short')))return 'That password is too weak. Use 8+ characters with letters and numbers.';
+ if(m.includes('same password'))return 'Choose a password you have not used before.';
+ if(m.includes('fetch')||m.includes('network')||!navigator.onLine)return "We can't reach Together right now. Check your connection and try again.";
+ if(x?.code==='42501')return "Your account was created, but we couldn't save your profile (permissions). Please contact support.";
+ console.error(x);return 'Something went wrong on our side. Please try again.'}
+
+/* ===== 4. STATE + SESSION (Supabase is the only source of truth) ===== */
+const S={ready:false,user:null,profile:null,recovery:false,flash:null,email:''};
+let rid=0;
+async function loadUser(){
+ const{data:{session}}=await sb.auth.getSession();S.session=session;
+ if(!session){S.user=null;S.profile=null;S.role=null;return}
+ const{data,error}=await sb.auth.getUser(); // verified with the Auth server
+ if(error||!data.user){S.user=S.profile=S.role=S.session=null;await sb.auth.signOut({scope:'local'});return}
+ S.user=data.user;
+ const get=()=>Promise.all([sb.from(CFG.table).select('*').eq('id',S.user.id).maybeSingle(),sb.from('user_roles').select('role').eq('user_id',S.user.id).maybeSingle()]);
+ let[pr,rl]=await get();
+ if(!pr.data&&!pr.error){await new Promise(r=>setTimeout(r,800));[pr,rl]=await get()} // the DB trigger creates the profile at signup
+ if(pr.error)console.error(pr.error);S.profile=pr.data||null;S.role=rl.data?rl.data.role:null}
+/* Auth layer: single place for auth + profile calls. The profile row is created by the database trigger, never by the frontend. */
+const Auth={get status(){return !S.ready?'loading':S.user?'authenticated':'unauthenticated'},
+ get state(){return{status:this.status,user:S.user,profile:S.profile,role:S.role,session:S.session}},
+ refresh:()=>route(true),
+ signUp:v=>sb.auth.signUp({email:v.email.trim(),password:v.password,options:{emailRedirectTo:REDIRECT,data:{full_name:v.full_name.trim(),school:v.school.trim(),department:v.department.trim(),level:v.level}}}),
+ signIn:v=>sb.auth.signInWithPassword({email:v.email.trim(),password:v.password}),
+ signOut:()=>sb.auth.signOut(),
+ async updateProfile(v){ // only the six columns RLS/grants allow; points, streaks and role are never sent
+  const row={full_name:v.full_name.trim(),school:v.school.trim(),department:v.department.trim(),level:v.level,bio:(v.bio||'').trim()||null,avatar_path:(v.avatar_path||'').trim()||null,favourite_color:v.favourite_color||null,favourite_verse:(v.favourite_verse||'').trim()||null,favourite_verse_ref:(v.favourite_verse_ref||'').trim()||null,note_text:(v.note_text||'').trim()||null};
+  const{data,error}=await sb.from(CFG.table).update(row).eq('id',S.user.id).select().single();if(error)throw error;S.profile=data;return data}};
+if(ok)sb.auth.onAuthStateChange((ev)=>{
+ if(ev==='PASSWORD_RECOVERY'){S.recovery=true;location.hash='#/reset'}
+ setTimeout(()=>route(true),0)}); // never await Supabase inside this callback
+
+/* ===== 5. UI HELPERS ===== */
+const $=s=>document.querySelector(s),app=$('#app');
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const mark=(h=34,dk=true)=>{const a=dk?'#347B75':'#102A43',b=dk?'#EFECE3':'#102A43';return `<svg width="${h*88/116}" height="${h}" viewBox="0 0 88 116" role="img" aria-label="Together"><circle cx="18.5" cy="17" r="16.7" fill="${a}"/><rect x="1" y="41" width="36" height="73" rx="18" fill="${a}"/><circle cx="69.5" cy="20.5" r="16" fill="${b}"/><rect x="52" y="43" width="35" height="72" rx="17.5" fill="${b}"/></svg>`};const LOGO=mark(34);
+const fld=(n,l,t='text',v='',x='')=>`<div class="fld" id="f-${n}"><label for="${n}">${l}</label><div class="inp"><input id="${n}" name="${n}" type="${t}" value="${esc(v)}" ${x}>${t==='password'?'<button type="button" class="eye" data-act="eye" aria-label="Show or hide password">Show</button>':''}</div><div class="msg" id="e-${n}" role="alert"></div></div>`;
+const lvl=v=>`<div class="fld" id="f-level"><label for="level">Level</label><select id="level" name="level"><option value="">Choose level</option>${LEVELS.map(l=>`<option value="${l}" ${l===String(v)?'selected':''}>${l} Level</option>`).join('')}</select><div class="msg" id="e-level" role="alert"></div></div>`;
+const btn=(t,c='pri')=>`<button class="btn ${c}" type="submit"><span class="t">${t}</span></button>`;
+const alertBox=(m,k='e')=>`<div class="alert ${k}" role="alert">${m}</div>`;
+function shell(inner,hero){landingStop();app.innerHTML=`<div class="split"><aside class="brand"><div class="logo">${LOGO}Together</div><h1>${hero||'Grow together.<br><em>Achieve together.</em>'}</h1><p class="lead">Plan your journey, track your progress, reach your dreams with students who are doing the same.</p><ul class="perks"><li><i style="background:rgba(255,255,255,.12)">🎯</i>Set goals &amp; complete tasks</li><li><i style="background:rgba(255,255,255,.12)">🔥</i>Build streaks &amp; earn points</li><li><i style="background:rgba(255,255,255,.12)">👥</i>Connect with other students</li><li><i style="background:rgba(255,255,255,.12)">🏆</i>Celebrate achievements</li></ul></aside><main class="main"><div class="card">${inner}</div></main></div>`}
+function show(errs){let bad=false;(window.__f||document).querySelectorAll('.fld').forEach(f=>{const n=f.id.slice(2),m=errs[n];f.classList.toggle('bad',!!m);f.querySelector('.msg').textContent=m||'';if(m&&!bad){bad=true;f.querySelector('input,select,textarea').focus()}});return bad}
+const vals=f=>Object.fromEntries(new FormData(f).entries());
+function busy(f,on,label){f.dataset.busy=on?'1':'';f.querySelectorAll('input,select,textarea,button').forEach(e=>e.disabled=on);const b=f.querySelector('.btn');if(b)b.innerHTML=on?`<span class="spin"></span>${label||'Please wait…'}`:`<span class="t">${b.dataset.l}</span>`}
+function formErr(f,m){let a=f.querySelector('.alert');if(!a){f.insertAdjacentHTML('afterbegin',alertBox(m));return}a.className='alert e';a.textContent=m}
+const go=h=>{if(location.hash==='#/'+h)route();else location.hash='#/'+h};
+
+/* ===== 6. VIEWS ===== */
+const V={
+welcome:()=>landing(),
+register:()=>shell(`<h2>Create your account</h2><p class="sub">It takes a minute. No photo needed.</p><form data-form="register" novalidate>${fld('email','Email','email','','autocomplete="email" inputmode="email"')}<div class="row" style="grid-template-columns:1fr 1fr">${fld('password','Password','password','','autocomplete="new-password"')}${fld('confirm','Confirm','password','','autocomplete="new-password"')}</div><div class="hint" style="margin:-8px 0 14px">8+ characters, with a letter and a number.</div>${fld('full_name','Full name','text','','autocomplete="name"')}${fld('school','School','text','','autocomplete="organization"')}${fld('department','Department')}${lvl('')}${btn('Create account')}</form><p class="foot">Already in? <a href="#/login">Log in</a></p>`),
+'check-email':()=>shell(`<div class="big">📬</div><h2>Check your email</h2><p class="sub">We sent a verification link to <b>${esc(S.email)}</b>. Open it on this device to finish setting up your profile.</p><a class="btn grn" href="#/login" style="text-decoration:none">Back to login</a>`),
+login:()=>{const fl=S.flash;S.flash=null;shell(`<h2>Welcome back</h2><p class="sub">Log in to pick up where you left off.</p>${fl?alertBox(esc(fl),'ok'):''}<form data-form="login" novalidate>${fld('email','Email','email','','autocomplete="email" inputmode="email"')}${fld('password','Password','password','','autocomplete="current-password"')}<div style="text-align:right;margin:-6px 0 16px"><a href="#/forgot">Forgot password?</a></div>${btn('Log in')}</form><p class="foot">New here? <a href="#/register">Create an account</a></p>`)},
+forgot:()=>shell(`<h2>Reset your password</h2><p class="sub">Enter your email and we'll send you a link to choose a new one.</p><form data-form="forgot" novalidate>${fld('email','Email','email','','autocomplete="email" inputmode="email"')}${btn('Send reset link')}</form><p class="foot"><a href="#/login">Back to login</a></p>`),
+reset:()=>shell(`<h2>Choose a new password</h2><p class="sub">Make it one you'll remember.</p><form data-form="reset" novalidate>${fld('password','New password','password','','autocomplete="new-password"')}${fld('confirm','Confirm password','password','','autocomplete="new-password"')}${btn('Save password')}</form>`),
+setup:()=>{const p=S.profile;
+ if(!complete(p))return shell(`<div class="big">🌱</div><h2>We couldn't load your profile</h2><p class="sub">You're signed in, but your student profile isn't available yet. Please try again in a moment.</p><button class="btn pri" data-act="retry">Try again</button><div style="height:10px"></div><button class="btn ghost" data-act="logout">Log out</button>`);
+ S.welcome=false;return shell(`<div class="big">🎉</div><h2>Welcome to Together, ${esc(p.full_name.split(' ')[0])}!</h2><p class="sub">Your student profile is ready.</p><div class="sum"><div><span>Name</span><b>${esc(p.full_name)}</b></div><div><span>School</span><b>${esc(p.school)}</b></div><div><span>Department</span><b>${esc(p.department)}</b></div><div><span>Level</span><b>${esc(p.level)}</b></div></div><a class="btn pri" href="#/home" style="text-decoration:none">Enter Together</a><p class="foot">You can add a bio in Profile.</p>`,'Your goals.<br><em>Our support.</em>')}};
+const PAGES={home:['🏠','Home'],community:['👥','Community'],goals:['🎯','Goals'],leaderboard:['🏆','Leaders'],games:['🎮','Games'],profile:['👤','Profile'],settings:['⚙️','Settings'],guidelines:['📜','Guidelines']};
+function appView(p){landingStop();const pr=S.profile,[ic,name]=PAGES[p]||PAGES.community;
+ const body=p==='home'?`<h1 style="font-size:28px;font-weight:800">Good to see you, ${esc(pr.full_name.split(' ')[0])} 👋</h1><div class="chips"><span class="chip" style="background:#dfeae7;color:var(--g)">⭐ ${pr.points??0} points</span><span class="chip" style="background:#fdeee2;color:#a5561f">🔥 ${pr.current_streak??0} day streak</span></div><div class="tiles">${Object.entries(PAGES).filter(([k])=>k!=='home').map(([k,[i,n]])=>`<a class="tile" href="#/${k}"><span>${i}</span>${n}</a>`).join('')}</div>`
+ :`<h1 style="font-size:28px;font-weight:800">${ic} ${name}</h1><p class="sub" style="margin-top:8px">${p==='profile'?`${esc(pr.full_name)} · ${esc(pr.department)}, ${esc(pr.level)} Level · ${esc(pr.school)}<br>Photo and bio are coming soon.`:p==='settings'?'Signed in as '+esc(S.user.email)+' · role: '+esc(S.role||'student')+'.':'This space is coming soon.'}</p>${p==='settings'?'<button class="btn grn" style="max-width:240px" data-act="logout">Log out</button>':''}`;
+ const nav=['home','community','goals','leaderboard','games','profile'].map(k=>`<a href="#/${k}" class="${k===p?'on':''}"><span>${PAGES[k][0]}</span>${PAGES[k][1]}</a>`).join('');
+ app.innerHTML=`<header class="top"><div class="logo" style="font-size:20px">${mark(26)}Together</div><button data-act="logout">Log out</button></header><div class="page">${body}</div><nav class="nav">${nav}</nav>`;if(p==='profile')$('.page').innerHTML=profileHtml(pr);if(p==='home')feedPage();else if(p.startsWith('tag/'))feedPage(p.slice(4));if(p==='community')commPage();if(p==='guidelines')$('.page').innerHTML=GUIDE;if(p==='settings')$('.page').insertAdjacentHTML('beforeend','<p class="foot"><a href="#/guidelines">Community Guidelines</a></p>')}
+const profileHtml=pr=>`<h1 style="font-size:28px;font-weight:800">👤 Profile</h1><div class="chips"><span class="chip" style="background:#dfeae7;color:var(--g)">⭐ ${pr.points} points</span><span class="chip" style="background:#fdeee2;color:#a5561f">🔥 ${pr.current_streak} day streak · best ${pr.longest_streak}</span><span class="chip" style="background:#fff;border:1px solid var(--line)">${esc(S.role||'student')}</span></div>${profMeta(pr)}<form data-form="profile" novalidate style="max-width:460px">${fld('full_name','Full name','text',pr.full_name)}${fld('school','School','text',pr.school)}${fld('department','Department','text',pr.department)}${lvl(pr.level)}<div class="fld" id="f-bio"><label for="bio">Bio</label><textarea id="bio" name="bio" maxlength="300" placeholder="A line about you and what you're working toward">${esc(pr.bio||'')}</textarea><div class="msg" id="e-bio"></div></div>${fld('note_text','12-hour note (optional)','text',noteNow(pr),'maxlength="140"')}<div class="hint" style="margin:-8px 0 14px">Shown on your profile for 12 hours, then it disappears.</div>${fld('favourite_verse','Favourite Bible verse (optional)','text',pr.favourite_verse||'')}${fld('favourite_verse_ref','Verse reference, e.g. Philippians 4:13','text',pr.favourite_verse_ref||'')}<div class="fld" id="f-favourite_color"><label for="favourite_color">Favourite colour</label><input type="color" id="favourite_color" name="favourite_color" value="${pr.favourite_color||'#102A43'}"><div class="msg" id="e-favourite_color"></div></div>${fld('avatar_path','Avatar reference (optional)','text',pr.avatar_path||'')}${btn('Save profile','grn')}</form>`
+
+/* ===== 7. ROUTER + PROTECTED ROUTES ===== */
+const PUB=['welcome','login','register','forgot','check-email'];
+async function route(force){
+ if(!ok){app.innerHTML='<div class="main"><div class="card"><h2>Connect Supabase</h2><p class="sub">Open index.html and set <b>CFG.url</b> and <b>CFG.key</b> (publishable/anon key) at the top of the script.</p></div></div>';return}
+ const id=++rid;
+ if(force||!S.ready){await loadUser();if(id!==rid)return}
+ S.ready=true;
+ const p=(location.hash.replace(/^#\/?/,'')||'').split('?')[0];
+ if(p==='reset'){if(!S.user&&!S.recovery)return go('login');return V.reset()}
+ if(!S.user){if(!PUB.includes(p))return go('welcome');return V[p]()}
+ const done=complete(S.profile);
+ if(PUB.includes(p)||!p)return go(done&&!S.welcome?'home':'setup');
+ if(p==='setup')return V.setup();
+ if(!done)return go('setup');
+ if(!PAGES[p]&&!/^tag\/[a-z][a-z0-9_]{1,29}$/.test(p))return go('home');
+ appView(p)}
+window.addEventListener('hashchange',()=>route());
+
+/* ===== 8. ACTIONS ===== */
+const H={
+async register(f,v){const e={...vAccount(v),...vProfile(v)};if(show(e))return;busy(f,1,'Creating account…');
+ try{const{data,error}=await Auth.signUp(v); // metadata is read by the database trigger that creates the profile
+  if(error)throw error;
+  if(data.user&&data.user.identities&&!data.user.identities.length)throw{message:'User already registered'};
+  if(data.session){S.welcome=true;route(true)}else{S.email=v.email.trim();go('check-email')}}
+ catch(x){busy(f,0);formErr(f,friendly(x))}},
+async login(f,v){const e=vAccount(v,false);if(!v.password)e.password='Enter your password.';if(e.password&&v.password)delete e.password;if(show(e))return;busy(f,1,'Logging in…');
+ const{error}=await Auth.signIn(v).catch(x=>({error:x}));
+ if(error){busy(f,0);formErr(f,friendly(error))} /* success → onAuthStateChange → router */},
+async forgot(f,v){if(show(vAccount(v,false).email?{email:vAccount(v,false).email}:{}))return;busy(f,1,'Sending…');
+ const{error}=await sb.auth.resetPasswordForEmail(v.email.trim(),{redirectTo:REDIRECT}).catch(x=>({error:x}));busy(f,0);
+ if(error&&!/not found/i.test(error.message||''))return formErr(f,friendly(error));
+ f.outerHTML=`<div class="big">📬</div>${alertBox('If an account exists for <b>'+esc(v.email)+'</b>, a reset link is on its way. It can take a couple of minutes.','ok')}<a class="btn grn" href="#/login" style="text-decoration:none">Back to login</a>`},
+async reset(f,v){const e=vAccount({email:'a@b.co',...v});delete e.email;if(show(e))return;busy(f,1,'Saving…');
+ const{error}=await sb.auth.updateUser({password:v.password}).catch(x=>({error:x}));
+ if(error){busy(f,0);return formErr(f,friendly(error))}
+ S.flash='Password updated. Log in with your new password.';S.recovery=false;await sb.auth.signOut();location.hash='#/login'},
+async post(f,v){const c=(v.content||'').trim();if(show(c?{}:{content:'Write something first.'}))return;busy(f,1,'Posting…');
+ const{data,error}=await sb.from('posts').insert({content:c}).select('id,user_id,content,created_at,comment_count,cheer_count,moderation_status').single();busy(f,0);
+ if(error)return formErr(f,friendly(error));
+ if(data.moderation_status!=='active')return formErr(f,"This post can't be published because it breaks our Community Guidelines.");
+ await people([data.user_id]);$('#feed').insertAdjacentHTML('afterbegin',card(data));f.reset()},
+async comment(f,v){const c=(v.content||'').trim();if(show(c?{}:{content:'Write something first.'}))return;busy(f,1,'Sending…');
+ const{data,error}=await sb.from('comments').insert({post_id:v.post_id,parent_id:v.parent_id||null,content:c}).select('moderation_status').single();
+ if(error){busy(f,0);return formErr(f,friendly(error))}
+ if(data.moderation_status!=='active'){busy(f,0);return formErr(f,"That comment breaks our Community Guidelines and wasn't posted.")}
+ const art=f.closest('article'),box=art.querySelector('.cms'),n=art.querySelector('[data-act=cm] i');n.textContent=+n.textContent+1;box.hidden=true;await openComments(v.post_id,box)},
+async profile(f,v){const e=vProfile(v);if((v.bio||'').length>300)e.bio='Keep your bio under 300 characters.';if((v.avatar_path||'').length>300)e.avatar_path='That reference is too long.';if(show(e))return;busy(f,1,'Saving profile…');
+ try{await Auth.updateProfile(v);busy(f,0);f.insertAdjacentHTML('afterbegin',alertBox('Profile saved.','ok'))}catch(x){busy(f,0);formErr(f,friendly(x))}}};
+document.addEventListener('submit',e=>{const f=e.target.closest('[data-form]');if(!f)return;e.preventDefault();if(f.dataset.busy)return;
+ f.querySelector('.alert')?.remove();const b=f.querySelector('.btn');if(b&&!b.dataset.l)b.dataset.l=b.textContent;window.__f=f;H[f.dataset.form](f,vals(f))});
+document.addEventListener('click',async e=>{const a=e.target.closest('[data-act]');if(!a)return;
+ if(a.dataset.act==='eye'){const i=a.previousElementSibling,h=i.type==='password';i.type=h?'text':'password';a.textContent=h?'Hide':'Show'}
+ if(a.dataset.act==='logout'){a.disabled=true;await Auth.signOut()}
+ if(a.dataset.act==='retry'){a.disabled=true;await route(true)}
+ const id=a.dataset.id;
+ if(a.dataset.act==='cheer'){const on=a.classList.contains('on'),i=a.querySelector('i');a.disabled=true;const{error}=on?await sb.from('post_cheers').delete().eq('post_id',id).eq('user_id',S.user.id):await sb.from('post_cheers').insert({post_id:id});a.disabled=false;if(!error){a.classList.toggle('on');i.textContent=+i.textContent+(on?-1:1);on?FEED.mine.delete(id):FEED.mine.add(id)}}
+ if(a.dataset.act==='cm')openComments(id,a.closest('article').querySelector('.cms'));
+ if(a.dataset.act==='reply'){document.querySelectorAll('.cms form[data-reply]').forEach(f=>f.remove());a.closest('.cm').insertAdjacentHTML('afterend',cform(a.closest('article').id.slice(2),id));a.closest('.cms').querySelector('form[data-reply] input[name=content]').focus()}
+ if(a.dataset.act==='del'){a.disabled=true;const{error}=await sb.from('posts').update({deleted_at:new Date().toISOString()}).eq('id',id);if(!error)a.closest('article').remove();else a.disabled=false}
+ if(a.dataset.act==='rep'){a.disabled=true;const{error}=await sb.from('reports').insert({target_type:'post',target_id:id,reason:'inappropriate'});const bad=error&&error.code!=='23505';a.textContent=bad?'Try again':'Reported';a.disabled=!bad}
+ if(a.dataset.act==='more'){a.disabled=true;await loadFeed();a.disabled=false}});
+document.addEventListener('input',e=>{const f=e.target.closest('.fld');if(f?.classList.contains('bad')){f.classList.remove('bad');f.querySelector('.msg').textContent=''}});
+/* ===== LANDING (canvas particle hero + scroll story) ===== */
+const ICON={p:'<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/>',a:'<path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/><path d="M9 12l2 2 4-4"/>',u:'<circle cx="9" cy="12" r="6"/><circle cx="15" cy="12" r="6"/>',g:'<path d="M4 18l6-6 4 4 6-8"/><path d="M15 8h5v5"/>'};
+const ic=k=>`<svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${ICON[k]}</svg>`;
+const words=t=>t.split(' ').map((w,i)=>`<span class="rv" style="--d:${i*.06}s;display:inline-block">${w}&nbsp;</span>`).join('');
+const FLAME='<svg width="30" height="30" viewBox="0 0 24 24" fill="#F2A36B"><path d="M12 2c1 4 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-4-1-6 1-9z"/></svg>';
+const STAR='<svg width="20" height="20" viewBox="0 0 24 24" fill="#F2A36B"><path d="M12 2l3 6.5 7 .8-5.2 4.8 1.4 7L12 17.5 5.8 21l1.4-7L2 9.3l7-.8z"/></svg>';let Lc=null;
+function landingStop(){if(Lc){Lc();Lc=null;document.body.style.overflow='';scrollTo(0,0)}}
+function landing(){
+ if(Lc&&$('#hero'))return;
+ const lk=(a,b)=>`<a data-scroll="${a}">${b}</a>`;
+ app.innerHTML=`<div class="L">
+<header class="Lnav" id="ln"><a class="lg" href="#/welcome">${mark(30)}Together</a><nav>${lk('goals','Goals')}${lk('community','Community')}${lk('how','How it works')}</nav><div class="r"><a class="lb gh" href="#/login">Sign in</a><a class="lb t mag" href="#/register">Create account</a></div><button class="bur" id="bur" aria-label="Menu" aria-expanded="false"><i></i><i></i></button></header>
+<div class="Lmenu" id="lm">${lk('goals','Goals')}${lk('community','Community')}${lk('how','How it works')}<a href="#/login">Sign in</a><a class="lb t" href="#/register">Create account</a></div>
+<section class="hero" id="hero"><div class="stage"><canvas id="cv" aria-hidden="true"></canvas>
+<div class="ht" id="ht"><h1><span class="hw">The world changes</span> <span class="hw">when we choose</span> <span class="hw">to move together.</span></h1><p>Together is a community for people who believe their goals matter more when they are built with purpose, accountability and one another.</p><div class="cta"><a class="lb t mag" href="#/register">Create your account</a><a class="lb ol mag" href="#/login">I already have an account</a></div></div>
+<div class="hb"><p class="cap" id="cap">Every meaningful change starts with someone willing to take responsibility.</p><a class="lb t hm" href="#/register">Create your account</a><div class="pg"><div class="bars" id="pg"><i></i><i></i><i></i><i></i><i></i></div><span id="pl">Individual</span></div></div></div></section>
+<div class="sheet"><section class="sec idea" id="idea"><i class="fd" data-p=".07" style="left:8%;top:20%"></i><i class="fd" data-p="-.05" style="right:10%;top:36%"></i><i class="fd o" data-p=".1" style="right:24%;bottom:24%"></i><i class="fd" data-p="-.08" style="left:32%;bottom:16%"></i><span class="eb rv">Connection</span><h2 class="big">${words("You don't have to change the world alone.")}</h2><div class="two"><p class="rv">Together helps students turn intentions into goals, goals into action, and action into meaningful progress—with people around them.</p></div></section></div>
+<section class="prin" id="goals"><div class="sec"><span class="eb rv">What we believe</span><h2 class="sh rv">From purpose to progress, together.</h2><div class="prw"><div class="spine"><i class="sp"></i><i class="sph"></i></div><ol class="pr">${[['Purpose',"Know what you're working toward."],['Action','Turn intention into one small step, today.'],['Accountability','Show up for yourself and for others.'],['Progress','Shared, small actions become meaningful change.']].map((c,i)=>`<li><i class="ln"></i><span class="n">0${i+1}</span><h3>${c[0]}</h3><p>${c[1]}</p></li>`).join('')}</ol></div></div></section>
+<section class="sec" id="how"><span class="eb rv">In practice</span><h2 class="sh rv">How Together works</h2><ol class="jr">${['Set a goal|Name what matters to you.','Take action|Break it into tasks and start.','Stay accountable|Show up, with people who notice.','Grow together|Streaks and points build momentum.','Celebrate progress|Mark the wins, big and small.'].map((t,i)=>{const[a,b]=t.split('|');return `<li class="stp" style="--d:${i*.35}s"><span class="d">${i+1}</span><h3>${a}</h3><p>${b}</p></li>`}).join('')}</ol></section>
+<section class="prod"><canvas id="cv3" aria-hidden="true"></canvas><div class="sec"><span class="eb rv">The product</span><h2 class="sh rv">Your day, in one calm place</h2><p class="rv">Goals, tasks, streaks and people, together in one flow.</p><div class="pv rv" id="pv">
+<div class="uw" data-p=".03"><div class="uc" style="--z:40px"><div class="pf"><span class="av">S</span><div><b>Samantha</b><small>200 Level · Computer Science</small></div></div><h4>Today's goals</h4><ul><li class="k">Read chapter 4</li><li class="k">Submit assignment</li><li>Group study</li></ul><div class="bar"><i></i></div><small id="gt">2 / 3 done</small></div></div>
+<div class="uw" data-p="-.04"><div class="uc" style="--z:20px"><h4>Tasks</h4><div class="rgw"><svg viewBox="0 0 64 64"><circle class="rb" cx="32" cy="32" r="28"/><circle class="rg" cx="32" cy="32" r="28" transform="rotate(-90 32 32)"/></svg><b id="tr">3/4</b></div><small>tasks completed today</small></div></div>
+<div class="uw" data-p=".06"><div class="uc dk" style="--z:60px">${FLAME}<b style="margin-top:8px"><span id="sk">11</span> day streak</b><small>Keep it going</small></div></div>
+<div class="uw" data-p="-.02"><div class="uc" style="--z:30px"><h4>Community</h4><div class="avs"><span>A</span><span>K</span><span>S</span><span class="n4">M</span></div><small id="cn">3 students are working alongside you</small><div class="act" id="act"><span class="av sm">K</span>Kwame cheered your progress</div></div></div>
+<div class="uw" data-p=".05"><div class="uc" style="--z:50px"><h4>Achievement</h4><b id="ac">6 / 7 days</b><small>every daily goal completed</small><div class="dots7" id="d7">${[1,1,1,1,1,1,0].map(v=>`<i class="${v?'k':''}"></i>`).join('')}</div></div></div>
+<div class="toast" id="tst">${STAR}<div><b>Achievement unlocked</b><small>First full week</small></div></div>
+</div></div></section>
+<section class="evid" id="community"><div class="sec"><span class="eb rv">Proof of progress</span><h2 class="big">${words("Your progress can inspire someone else's.")}</h2><div class="cg">${[['A','Amara O.','finished her thesis outline','6 cheers',.04],['K','Kwame B.','reached a 12 day streak','9 cheers',-.05],['S','Sade A.','completed Group study','4 cheers',.05]].map((c,i)=>`<div class="rv" style="--d:${i*.15}s"><div class="par" data-p="${c[4]}"><div class="cc fl" style="animation-delay:-${i*2}s"><span class="av">${c[0]}</span><div><b>${c[1]}</b><small>${c[2]}</small></div><span class="ch">${c[3]}</span></div></div></div>`).join('')}</div><div class="wk rv"><b>This week</b><small>7 of 7 days · every goal completed</small><div class="bars7">${[34,48,44,66,58,82,100].map(h=>`<i style="--h:${h}%"></i>`).join('')}</div></div></div></section>
+<div class="tail" id="tail"><canvas id="cv2" aria-hidden="true"></canvas><section class="emo sheet"><div><h2>${words('What if your progress could become part of something bigger?')}</h2><i class="ul"></i><p class="rv">Start with one goal. Find your people. Move together.</p></div></section>
+<section class="fin" id="fin"><div class="rv"><div class="lock">${mark(56)}<span>Together</span></div><h2>Build something that matters.</h2><p>You are one person, but you don't have to do this alone. Your progress becomes more meaningful when we move together.</p><div class="cta c"><a class="lb t mag" href="#/register">Create your account</a><a class="lb ol mag" href="#/login">Sign in</a></div></div></section></div>
+<footer class="lf"><span>© Together</span>${lk('goals','Goals')}${lk('community','Community')}${lk('how','How it works')}<a href="#/login">Sign in</a></footer></div>`;
+ landingInit()}
+function landingInit(){
+ const rm=matchMedia('(prefers-reduced-motion:reduce)').matches,mob=()=>innerWidth<860,offs=[];
+ const on=(t,e,f,o)=>{t.addEventListener(e,f,o);offs.push(()=>t.removeEventListener(e,f,o))};
+ const nav=$('#ln'),hero=$('#hero'),ht=$('#ht'),cap=$('#cap'),pgs=[...document.querySelectorAll('#pg i')],pl=$('#pl'),bur=$('#bur'),lm=$('#lm');
+ const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.2,rootMargin:'0px 0px -8% 0px'});
+ document.querySelectorAll('.rv,.stp,.ul').forEach(el=>rm?el.classList.add('in'):io.observe(el));
+ const tg=v=>{lm.classList.toggle('o',v);bur.classList.toggle('o',v);bur.setAttribute('aria-expanded',v);document.body.style.overflow=v?'hidden':''};
+ on(bur,'click',()=>tg(!lm.classList.contains('o')));
+ on($('.L'),'click',e=>{const s=e.target.closest('[data-scroll]');if(s){e.preventDefault();tg(false);document.getElementById(s.dataset.scroll).scrollIntoView({behavior:rm?'auto':'smooth'})}});
+ if(!rm&&matchMedia('(hover:hover)').matches){
+  on(document,'pointermove',e=>{const m=e.target.closest('.mag');if(m){const r=m.getBoundingClientRect();m.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.22}px,${(e.clientY-r.top-r.height/2)*.3}px)`}
+   const t=e.target.closest('.tl');if(t){const r=t.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;t.style.transform=`perspective(700px) rotateX(${-y*10}deg) rotateY(${x*12}deg) translateZ(14px)`}
+   const pv=e.target.closest('#pv');if(pv){const r=pv.getBoundingClientRect();pv.style.setProperty('--ry',((e.clientX-r.left)/r.width-.5)*14+'deg');pv.style.setProperty('--lx',(e.clientX-r.left)/r.width*100+'%');pv.style.setProperty('--ly',(e.clientY-r.top)/r.height*100+'%')}});
+  on(document,'pointerout',e=>{const m=e.target.closest('.mag,.tl');if(m&&!m.contains(e.relatedTarget))m.style.transform=''})}
+ /* fields: particles scatter, connect and disconnect; in the hero they converge into the Together mark (logo units 88x116) */
+ const cl=(v,a=0,b=1)=>Math.min(b,Math.max(a,v)),sm=v=>{v=cl(v);return v*v*(3-2*v)};
+ const M=[[0,18.5,17,16.7],[0,1,41,36,73],[0,69.5,20.5,16],[0,52,43,35,72]],wt=[880,2500,800,2400],LBL=['Individual','Connection','Accountability','Community','Shared progress'];
+ function field(cv,mode,N){const mark=mode===0,light=mode===2,x=cv.getContext('2d');if(!x)return null;let W,H;const t0=performance.now();
+  const P=Array.from({length:N},(_,i)=>{let r=Math.random()*6580,k=0;while(r>wt[k]){r-=wt[k];k++}const c=M[k];let hx,hy;
+   if(k%2===0){const a=Math.random()*6.283,d=c[3]*Math.sqrt(Math.random());hx=c[1]+Math.cos(a)*d;hy=c[2]+Math.sin(a)*d}
+   else{const w=c[3],h=c[4],rr=w/2;for(;;){hx=c[1]+Math.random()*w;hy=c[2]+Math.random()*h;const cy=hy<c[2]+rr?c[2]+rr:hy>c[2]+h-rr?c[2]+h-rr:hy;if(Math.hypot(hx-c[1]-rr,hy-cy)<=rr)break}}
+   return{hx:hx-44,hy:hy-58,hz:(Math.random()-.5)*10,sx:Math.random(),sy:Math.random(),dz:Math.random(),g:k>1?1:0,d:Math.random()*.35,ph:Math.random()*6.28,ap:i<3,ix:i}});
+  if(mark){P[0].sx=.78;P[0].sy=.62}
+  const size=()=>{const d=Math.min(devicePixelRatio||1,2);W=cv.clientWidth;H=cv.clientHeight;cv.width=W*d;cv.height=H*d;x.setTransform(d,0,0,d,0,0)};size();
+  const draw=(now,cur,mx,my,dim=1)=>{const tt=now/1000,m=innerWidth<860,intro=sm((now-t0)/2600),cx=m?W/2:W*.7,cy=H*(m?.5:.52),S=H*(m?.0033:.0053)*(1+(mark?.012*Math.sin(tt*1.7)*cur:0)),ry=Math.sin(tt*.35)*.3*(1-.5*cur)+mx*.3,cr=Math.cos(ry),sr=Math.sin(ry),lf=.3+.7*sm((cur-.15)/.45),mn=Math.min(W,H),k=mark?1:.8+.6*cur,g=mark?0:light?sm((cur-.1)/.5):.6*sm((cur-.3)/.6);
+   x.clearRect(0,0,W,H);
+   /* three depth layers: 0 background (small, slow, faint) · 1 middle (carries the connections) · 2 foreground (large, soft, fast) */
+   const q=P.map(p=>{const L=p.ix===0?1:p.dz<.33?0:p.dz<.66?1:2,e=mark?sm((cur-.08-p.d)/.5):g,sp=.6+p.dz*1.4,
+    sx=p.sx*W+Math.sin(tt*.25*sp+p.ph)*(6+14*p.dz)-mx*(6+34*p.dz),sy=p.sy*H+Math.cos(tt*.22*sp+p.ph)*(6+14*p.dz)-my*(6+34*p.dz)-(mark?cur*p.dz*70:0);
+    let tx,ty;if(mark){const X=p.hx*cr+p.hz*sr,Z=-p.hx*sr+p.hz*cr,sc=1/(1+Z*3/520);tx=cx+X*S*sc;ty=cy+p.hy*S*sc}else if(light){const cn=m?6:12,rw=Math.ceil(N/cn);tx=((p.ix%cn)+.5)/cn*W;ty=((p.ix/cn|0)+.5)/rw*H+Math.sin(tt*.6+(p.ix%cn)*.55)*5}else{tx=W/2+Math.cos(p.ph)*W*(.4+.1*p.dz);ty=H*.6+Math.sin(p.ph)*H*.32*(.9+.2*p.d)}
+    const r0=[.9,1.6,3][L]+p.dz*.6,a0=p.ix===0?.95:[.3,.62,.22][L],dm=mark?(1-e)*dim*((!m&&p.sx<.52)?.6:1)+e:1;
+    return{x:sx+(tx-sx)*e,y:sy+(ty-sy)*e,e:mark?e:0,ee:e,L,z:p.dz,r:(1-e)*r0+e*(2+Math.sin(tt*1.7+p.ph)*(mark?cur:cur*.6)*.35),a:((1-e)*a0+e*(mark?.95:.8))*intro*dm*(mark||!m?1:.6)*(light?.7:1),you:p.ix===0,c:p.ap?'#F2A36B':light?'#2F6F68':p.g?'#EFECE3':'#4a9a91'}});
+   x.lineWidth=.8;
+   for(let i=0;i<N;i++){const a=q[i];for(let j=i+1;j<N;j++){const b=q[j],dx=a.x-b.x,em=Math.min(a.e,b.e),th=light?W/(m?6:12)*1.25:((1-em)*(m?.11:.07)*mn+em*10*S)*k;if(dx>th||dx<-th)continue;
+    if((a.L===2||b.L===2)&&!(a.ee>.4&&b.ee>.4))continue;const dy=a.y-b.y,d=Math.hypot(dx,dy);
+    if(d<th){x.strokeStyle=`rgba(${light?'16,42,67':'247,245,239'},${(1-d/th)*.42*lf*intro*(.5+.5*Math.sin(tt*.55+(i*7+j*13)%6.28))*(a.L===1||b.L===1?1:.55)*(mark?1:light?a.ee*b.ee*.75:1.25)})`;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.stroke()}}}
+   for(const a of q){x.globalAlpha=a.a;x.fillStyle=a.c;if(a.you&&!light){x.globalAlpha=a.a*.16;x.beginPath();x.arc(a.x,a.y,a.r*5+2,0,6.283);x.fill();x.globalAlpha=a.a}x.beginPath();x.arc(a.x,a.y,a.you?a.r+1.5:a.r,0,6.283);x.fill()}x.globalAlpha=1};
+  return{size,draw}}
+ const F1=field($('#cv'),0,mob()?120:230),F2=field($('#cv2'),1,mob()?90:160),F3=field($('#cv3'),2,mob()?72:96),prodE=$('.prod'),fin=$('#tail'),pvE=$('#pv'),stg=hero.querySelector('.stage'),prw=$('.prw'),sp=$('.sp'),sph=$('.sph'),lis=[...document.querySelectorAll('.pr li')];let cur=rm?1:0,mx=0,my=0,tx=0,ty=0,raf;
+ if(!rm&&matchMedia('(hover:hover)').matches)on(window,'pointermove',e=>{tx=e.clientX/innerWidth-.5;ty=e.clientY/innerHeight-.5});
+ on(window,'resize',()=>{F1&&F1.size();F2&&F2.size();F3&&F3.size()});
+ requestAnimationFrame(()=>requestAnimationFrame(()=>ht.classList.add('go')));
+ function frame(now){raf=requestAnimationFrame(frame);nav.classList.toggle('sc',scrollY>24);mx+=(tx-mx)*.05;my+=(ty-my)*.05;const vh=innerHeight;
+  if(!rm){document.querySelectorAll('[data-p]').forEach(el=>{const r=el.getBoundingClientRect();el.style.transform=`translate3d(0,${(r.top+r.height/2-vh/2)*el.dataset.p}px,0)`});
+   const r=pvE.getBoundingClientRect();pvE.style.setProperty('--rx',(-(r.top+r.height/2-vh/2)/vh*7).toFixed(2)+'deg');
+   const h2=$('.idea .big'),kk=cl((vh*.35-h2.getBoundingClientRect().bottom)/(vh*.4));h2.style.opacity=1-.7*kk;h2.style.transform=`scale(${1-.05*kk})`;h2.style.filter=kk>.02?`blur(${(kk*3).toFixed(1)}px)`:''}
+  const pr=prw.getBoundingClientRect(),pp=rm?1:cl((vh*.62-pr.top)/pr.height);sp.style.transform=`scaleY(${pp})`;sph.style.top=`calc(${pp*100}% - 5px)`;lis.forEach(l=>l.classList.toggle('in',rm||l.getBoundingClientRect().top<vh*.62));
+  const rc=hero.getBoundingClientRect();
+  if(rc.bottom>0&&F1){cur+=((rm?1:cl(-rc.top/(rc.height-vh*1.5)))-cur)*(rm?1:.07);let dm=1;
+   if(mob()){const o=1-cl((cur-.12)/.22);ht.style.opacity=o;ht.style.pointerEvents=o<.3?'none':'';dm=.45+.55*(1-o)}else ht.style.opacity='';
+   const t=rm?0:1-cl((rc.bottom-vh)/(vh*.5));stg.style.transform=`scale(${1-.05*t})`;stg.style.opacity=1-.45*t;
+   const ix=Math.min(4,Math.floor(cur*5));cap.classList.toggle('in',cur>.72);pgs.forEach((s,i)=>s.classList.toggle('on',i<=ix));pl.textContent=LBL[ix];F1.draw(now,cur,mx,my,dm)}
+  const r3=prodE.getBoundingClientRect();if(F3&&r3.top<vh&&r3.bottom>0)F3.draw(now,cl((vh-r3.top)/(vh*1.2)),0,0);
+  const r2=fin.getBoundingClientRect();if(F2&&r2.top<vh&&r2.bottom>0)F2.draw(now,cl((vh-r2.top)/r2.height),mx,my)}
+ if(rm){frame(performance.now()+3000);cancelAnimationFrame(raf)}else raf=requestAnimationFrame(frame);
+ /* product micro-interaction: a task completes, progress advances, achievement appears */
+ const io2=new IntersectionObserver(es=>{if(es[0].isIntersecting){io2.disconnect();const T=(f,t)=>rm?f():setTimeout(f,t);
+  T(()=>{document.querySelector('#pv li:last-child').classList.add('k');$('#pv .bar i').style.width='100%';$('#gt').textContent='3 / 3 done';$('#tr').textContent='4/4';$('#pv .rg').style.strokeDashoffset=0},1500);
+  T(()=>{$('#sk').textContent='12';$('#sk').classList.add('tick')},2400);
+  T(()=>{$('#d7 i:last-child').classList.add('k');$('#ac').textContent='7 / 7 days';$('#tst').classList.add('in')},3500);
+  T(()=>{document.querySelector('.n4').classList.add('in');$('#act').classList.add('in');$('#cn').textContent='4 students are working alongside you'},4800)}},{threshold:.1,rootMargin:'0px 0px -25% 0px'});io2.observe(pvE);
+ Lc=()=>{cancelAnimationFrame(raf);offs.forEach(f=>f());io.disconnect();io2.disconnect()}}
+
+/* ===== COMMUNITY: feed, comments, hashtags, trending (all reads/writes go through RLS) ===== */
+const ago=t=>{const s=(Date.now()-new Date(t))/1e3;return s<60?'now':s<3600?Math.floor(s/60)+'m':s<86400?Math.floor(s/3600)+'h':Math.floor(s/86400)+'d'};
+const rich=t=>esc(t).replace(/#([A-Za-z][A-Za-z0-9_]{1,29})/g,(m,x)=>`<a href="#/tag/${x.toLowerCase()}">#${x}</a>`);
+const PEOPLE={};let FEED={tag:null,cursor:null,mine:new Set()};
+async function people(ids){const need=[...new Set(ids)].filter(i=>!PEOPLE[i]);if(need.length){const{data}=await sb.from('profiles').select('id,full_name,department').in('id',need);(data||[]).forEach(p=>PEOPLE[p.id]=p)}}
+const noteNow=pr=>pr.note_expires_at&&new Date(pr.note_expires_at)>new Date()?pr.note_text||'':'';
+const profMeta=pr=>(noteNow(pr)?`<p class="sub">“${esc(noteNow(pr))}”</p>`:'')+(pr.favourite_verse?`<p class="verse"><small>Verse</small><br>“${esc(pr.favourite_verse)}”${pr.favourite_verse_ref?`<br><b>— ${esc(pr.favourite_verse_ref)}</b>`:''}</p>`:'');
+const card=p=>{const a=PEOPLE[p.user_id]||{full_name:'Student'},own=p.user_id===S.user.id;return `<article class="post" id="p-${p.id}"><div class="ph"><span class="av sm">${esc(a.full_name[0])}</span><div><b>${esc(a.full_name)}</b><small>${esc(a.department||'')} · ${ago(p.created_at)}</small></div></div><p class="pt">${rich(p.content)}</p><div class="pa"><button data-act="cheer" data-id="${p.id}" class="${FEED.mine.has(p.id)?'on':''}">Cheer <i>${p.cheer_count}</i></button><button data-act="cm" data-id="${p.id}">Comments <i>${p.comment_count}</i></button>${own?`<button data-act="del" data-id="${p.id}">Delete</button>`:`<button data-act="rep" data-id="${p.id}">Report</button>`}</div><div class="cms" hidden></div></article>`};
+function feedPage(tag){FEED={tag:tag||null,cursor:null,mine:new Set()};
+ $('.page').innerHTML=`<h1 style="font-size:28px;font-weight:800">${tag?'#'+esc(tag):'Together'}</h1>${tag?'<p class="sub"><a href="#/community">← Community</a></p>':`<form data-form="post" novalidate class="comp"><div class="fld" id="f-content"><textarea name="content" maxlength="1000" placeholder="Share something with the community. Add #hashtags to join a topic."></textarea><div class="msg" id="e-content" role="alert"></div></div>${btn('Post','grn')}</form>`}<div id="feed"></div><button class="btn ghost" id="more" data-act="more" hidden>Load more</button><p class="foot"><a href="#/guidelines">Community Guidelines</a></p>`;loadFeed()}
+async function loadFeed(){const el=$('#feed');let q=sb.from('posts').select('id,user_id,content,created_at,comment_count,cheer_count').order('created_at',{ascending:false}).limit(21);
+ if(FEED.tag){const{data:h}=await sb.from('hashtags').select('id').eq('tag',FEED.tag).maybeSingle();const{data:ph}=h?await sb.from('post_hashtags').select('post_id').eq('hashtag_id',h.id).order('created_at',{ascending:false}).limit(60):{data:[]};
+  if(!ph||!ph.length){el.innerHTML='<p class="sub">No posts for this topic yet.</p>';return}q=q.in('id',ph.map(x=>x.post_id))}
+ if(FEED.cursor)q=q.lt('created_at',FEED.cursor);
+ const{data,error}=await q;if(error){el.innerHTML=alertBox('We could not load the feed. Please try again.');return}
+ const more=data.length>20,rows=data.slice(0,20);await people(rows.map(r=>r.user_id));
+ const{data:ch}=rows.length?await sb.from('post_cheers').select('post_id').eq('user_id',S.user.id).in('post_id',rows.map(r=>r.id)):{data:[]};(ch||[]).forEach(c=>FEED.mine.add(c.post_id));
+ el.insertAdjacentHTML('beforeend',rows.map(card).join('')||(FEED.cursor?'':'<p class="sub">Nothing here yet. Be the first to post.</p>'));
+ if(rows.length)FEED.cursor=rows[rows.length-1].created_at;$('#more').hidden=!more}
+const cform=(id,parent)=>`<form data-form="comment" novalidate ${parent?'data-reply="1"':''}><input type="hidden" name="post_id" value="${id}"><input type="hidden" name="parent_id" value="${parent||''}"><div class="fld" id="f-content"><input name="content" maxlength="500" placeholder="${parent?'Write a reply…':'Add a comment…'}"><div class="msg" id="e-content" role="alert"></div></div></form>`;
+async function openComments(id,box){if(!box.hidden){box.hidden=true;return}box.hidden=false;box.innerHTML='<small>Loading…</small>';
+ const{data,error}=await sb.from('comments').select('id,user_id,parent_id,content,created_at').eq('post_id',id).order('created_at').limit(100);if(error){box.innerHTML=alertBox('Could not load comments.');return}
+ await people(data.map(c=>c.user_id));const line=c=>`<div class="cm"><b>${esc((PEOPLE[c.user_id]||{}).full_name||'Student')}</b> <small>${ago(c.created_at)}</small><p>${rich(c.content)}</p>${c.parent_id?'':'<a data-act="reply" data-id="'+c.id+'">Reply</a>'}</div>`;
+ box.innerHTML=data.filter(c=>!c.parent_id).map(c=>line(c)+data.filter(r=>r.parent_id===c.id).map(r=>`<div class="rp">${line(r)}</div>`).join('')).join('')+cform(id)}
+async function commPage(){$('.page').innerHTML=`<h1 style="font-size:28px;font-weight:800">👥 Community</h1><p class="sub">Topics people are talking about right now.</p><div id="trend"><small>Loading…</small></div><div class="tiles" style="margin-top:18px"><a class="tile" href="#/guidelines"><span>📜</span>Community Guidelines</a></div>`;
+ const{data,error}=await sb.rpc('trending_hashtags',{win:'48 hours',lim:10});$('#trend').innerHTML=error?alertBox('Could not load trending topics.'):data.length?data.map(t=>`<a class="chip" style="display:inline-block;margin:0 8px 8px 0;background:#dfeae7" href="#/tag/${t.tag}">#${esc(t.tag)} · ${t.posts}</a>`).join(''):'<p class="sub">No trending topics yet. Start one with a #hashtag.</p>'}
+const GUIDE=`<h1 style="font-size:28px;font-weight:800">📜 Community Guidelines</h1><p class="sub">Together works when everyone feels safe to grow. Everything here is public, so please post what you'd say face to face.</p><h3>Be respectful</h3><p>Disagree kindly. Encourage people. Assume good intent.</p><h3>Never allowed</h3><p><b>Violence and threats.</b> Threatening to hurt anyone, or encouraging self-harm.<br><b>Harassment and bullying.</b> Targeting, shaming or repeatedly contacting someone.<br><b>Hate and abuse.</b> Attacking people for who they are.<br><b>Inappropriate content.</b> Sexual, graphic or disturbing material.<br><b>Spam.</b> Repeated promotion, scams and misleading links.</p><h3>Public by design</h3><p>Together has no private messages. Posts, comments, replies, mentions and Circles are all visible to the community.</p><h3>Reporting</h3><p>Tap Report on any post. Content that gets several reports is hidden while it is reviewed.</p><h3>What happens next</h3><p>Prohibited content is blocked or removed. Repeated or serious breaches can lead to suspension.</p>`;
+
+route(true);
+</script>
+</body>
+</html>
